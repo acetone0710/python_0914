@@ -1,0 +1,41 @@
+year, month, day = map(int, input('輸入日期(yyyy mm dd):\n').split())
+
+
+def monthdays(yearvalue, a):
+    if a in [1, 3, 5, 7, 8, 10, 12]:
+        return 31
+    elif a in [4, 6, 9, 11]:
+        return 30
+    elif a == 2 and yearvalue / 4 == 0 and yearvalue / 100 != 0:
+        return 29
+    elif a == 2 and yearvalue / 100 == 0 and yearvalue / 400 == 0:
+        return 29
+    else:
+        return 28
+
+
+print(str(year) + '年' + str(month) + '月月曆:')
+print('Mo Tu We Th Fr Sa Su')
+
+month_array = [0, 0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5, 1]
+# 2023年1月1日是星期日
+year_move = (year - 2023) + (year - 2020)//4  # 2020之前須修正
+month_firstday = (year_move + month_array[month] + 6) % 7
+
+days_array = []
+for i in range(month_firstday):
+    days_array.append('  ')
+
+num = 0
+while num < monthdays(year, month):
+    num += 1
+    if num < 10:
+        days_array.append(' ' + str(num))
+    else:
+        days_array.append(str(num))
+
+for i in range(6):
+    weeks = days_array[(7*i):(7*i+7)]
+    print(' '.join(weeks))
+    
+    
