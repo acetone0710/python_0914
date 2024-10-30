@@ -1,0 +1,31 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+I0 = 1
+lambda1 = 532*10**(-9) # 光波長, unit:m
+D = 10**(-5) # 兩狹縫間的距離, unit:m
+z = 1 # 狹縫到屏幕距離, unit:m
+x = np.linspace(-0.2, 0.2, 1000) # 屏幕上到雙狹縫中心之水平距離
+
+## 直接使用推導公式求得intensity對x關係圖
+I1 = 2*I0*(1 + np.cos(2*np.pi*D*x/(lambda1*z))) # 直接帶入公式求光強度
+plt.figure()
+plt.plot(x, I1)
+plt.title('intensity versus x from the formula we derivated')
+plt.xlabel('x axis')
+plt.ylabel('Intensity')
+plt.show()
+
+## 使用兩電場疊加求得intensity對x關係圖
+k = 2*np.pi/lambda1 # 波源之波數
+r1 = ((x+D/2)**2 + z**2)**0.5 # 狹縫1到屏幕距離
+r2 = ((x-D/2)**2 + z**2)**0.5 # 狹縫2到屏幕距離
+E1 = I0*np.exp(1j*k*r1) # 狹縫1為波源之電場
+E2 = I0*np.exp(1j*k*r2) # 狹縫2為波源之電場
+I2 = np.abs(E1 + E2)**2 # 兩電場在屏幕上疊加之干涉條紋
+plt.figure()
+plt.plot(x, I2)
+plt.title('intensity versus x from the superposition of two E field')
+plt.xlabel('x axis')
+plt.ylabel('Intensity')
+plt.show()
